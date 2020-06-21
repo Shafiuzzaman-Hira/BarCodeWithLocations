@@ -1,36 +1,41 @@
 package com.example.mr_kajol.barcode;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String BASE_URL = "http:/192.168.43.171:8080/";
     public static Button btnScanCode;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
-
 
 
     @Override
@@ -45,8 +50,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         requestPersmission();
         client = LocationServices.getFusedLocationProviderClient(this);
+        getData();
+    }
+
+    private void  getData() {
+
+        // create an instance of gson to be used when building our service
+        Gson gson = new GsonBuilder().create();
+
+        // use retrofit to create an instance of BookService
+        TrackerService service = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(TrackerService.class);
+
+        // call the method we defined in our interface, and handle the result
+        service.getAllUsers().enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, retrofit2.Response response) {
+                System.out.println(response.code());
+                List users = (List) response.body();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                System.out.println("Something went wrong!");
+            }
 
 
+        });
     }
 
     @Override
@@ -83,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                     }
+                    }
+
+                    @NonNull
+                    private OnSuccessListener<Location> getOnSuccessListener() {
+                        return this;
                     }
                 });
             }
