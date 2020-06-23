@@ -34,7 +34,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String BASE_URL = "http:/192.168.43.140:8080/";
+    private static final String BASE_URL = "http://127.0.0.1:8000/";
     public static Button btnScanCode;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getData();
         //postData();
-        sendPost("kajol","data sent");
+        sendPost("kajol","mostafijurj@gmail.com");
     }
 
     private void  getData() {
@@ -92,33 +92,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void sendPost(String title, String body) {
 
-        Call<Post> mCall;
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        mCall = mAPIService.savePost(title, body, 1);
-        mCall.enqueue(new Callback<Post>() {
-            private String TAG;
+            SenderService senderService =  retrofit.create(SenderService.class);
 
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-
-                if(response.isSuccessful()) {
-                  //  showResponse(response.body().toString());
-                    Log.i(TAG, "post submitted to API." + response.body().toString());
+            Data data = new Data(title,body);
+            Call<Data> call = senderService.sendPost(data);
+            call.enqueue(new Callback<Data>() {
+                @Override
+                public void onResponse(Call<Data> call, Response<Data> response) {
+                    tvlocation.append(response.body().getEmail());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
+                @Override
+                public void onFailure(Call<Data> call, Throwable t) {
 
-                if(call.isCanceled()) {
-                    Log.e(TAG, "request was aborted");
-                }else {
-                    Log.e(TAG, "Unable to submit post to API.");
                 }
-                
+            });
 
-            }
-        });
     }
 
 
