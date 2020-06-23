@@ -11,4 +11,6 @@
     <string name="input_error_address">Address is empty</string>
     <string name="registration_success">Registration is successful!</string>
 
+    <string name="scan">Scan &amp; verify </string>
+
 </resources>

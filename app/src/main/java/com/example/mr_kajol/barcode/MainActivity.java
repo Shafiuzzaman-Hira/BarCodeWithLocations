@@ -34,7 +34,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String BASE_URL = "http://127.0.0.1:8000/";
+    private static final String BASE_URL = "http://192.168.43.140:8080";
     public static Button btnScanCode;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             String lat = Double.toString(latitude);
                             String lang = Double.toString(longitude);
 
-                            tvlocation.setText("\nLatitude = "+lat +"\nLongitude = " + lang);
+                            tvlocation.append("\nLatitude = "+lat +"\nLongitude = " + lang);
 
                             // Write a message to the database
                             FirebaseDatabase database = FirebaseDatabase.getInstance();

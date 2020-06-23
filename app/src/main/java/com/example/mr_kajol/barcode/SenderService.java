@@ -13,4 +13,12 @@ public interface SenderService {
     @POST("Data")
     Call<Data> sendPost(@Body Data data);
 
+    @FormUrlEncoded
+    @POST("Data")
+    Call<Data> createPost(
+            @Field("Name") String title,
+            @Field("body") String text
+    );
+
+
 }
