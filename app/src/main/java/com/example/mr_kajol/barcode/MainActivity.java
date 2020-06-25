@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -34,10 +34,11 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String BASE_URL = "http:/192.168.43.171:8080/";
+    private static final String BASE_URL = "http://192.168.43.140:8080";
     public static Button btnScanCode;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
+    private SenderService mAPIService;
 
 
     @Override
@@ -52,7 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         requestPersmission();
         client = LocationServices.getFusedLocationProviderClient(this);
+
+
         getData();
+        //postData();
+        sendPost("kajol","mostafijurj@gmail.com");
     }
 
     private void  getData() {
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call call, retrofit2.Response response) {
                 System.out.println(response.code());
                 List users = (List) response.body();
+                tvlocation.append(users.toString()+"then go ");
             }
 
             @Override
@@ -84,7 +90,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
+    public void sendPost(String title, String body) {
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+            SenderService senderService =  retrofit.create(SenderService.class);
+
+            Data data = new Data(title,body);
+            Call<Data> call = senderService.sendPost(data);
+            call.enqueue(new Callback<Data>() {
+                @Override
+                public void onResponse(Call<Data> call, Response<Data> response) {
+                    tvlocation.append(response.body().getEmail());
+                }
+
+                @Override
+                public void onFailure(Call<Data> call, Throwable t) {
+
+                }
+            });
+
+    }
+
+
+
+
+
+        @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttoncameraclicked: {
@@ -104,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             String lat = Double.toString(latitude);
                             String lang = Double.toString(longitude);
 
-                            tvlocation.setText("\nLatitude = "+lat +"\nLongitude = " + lang);
+                            tvlocation.append("\nLatitude = "+lat +"\nLongitude = " + lang);
 
                             // Write a message to the database
                             FirebaseDatabase database = FirebaseDatabase.getInstance();

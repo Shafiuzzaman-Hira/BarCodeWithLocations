@@ -27,11 +27,12 @@
             android:name="com.google.android.actions"
             android:resource="@xml/network_security_config" />
 
-        <activity android:name=".HomePage" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".Registration" />
         <activity android:name=".LoginPage" />
         <activity android:name=".Design" />
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".HomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
