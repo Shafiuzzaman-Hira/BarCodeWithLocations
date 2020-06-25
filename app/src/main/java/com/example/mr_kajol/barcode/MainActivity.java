@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +36,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String BASE_URL = "http://192.168.43.140:8080";
+    private static final String BASE_URL = "https://cylinder-tracker-web.el.r.appspot.com/";
     public static Button btnScanCode;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
@@ -75,10 +77,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // call the method we defined in our interface, and handle the result
         service.getAllUsers().enqueue(new Callback() {
             @Override
-            public void onResponse(Call call, retrofit2.Response response) {
+            public void onResponse(Call call, Response response) {
                 System.out.println(response.code());
                 List users = (List) response.body();
-                tvlocation.append(users.toString()+"then go ");
+                tvlocation.append(" " + users.get(0).equals("name"));
+                for (int i=0; i<2; i++)
+                {
+                   User u = (User) users.get(i);
+                    tvlocation.append(" " + u.getName());
+                }
             }
 
             @Override
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             call.enqueue(new Callback<Data>() {
                 @Override
                 public void onResponse(Call<Data> call, Response<Data> response) {
-                    tvlocation.append(response.body().getEmail());
+                  //  tvlocation.append(response.body().getEmail());
                 }
 
                 @Override
