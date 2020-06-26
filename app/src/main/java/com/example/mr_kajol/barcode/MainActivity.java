@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         getData();
-        //postData();
         sendPost("kajol","mostafijurj@gmail.com");
     }
 
@@ -80,11 +79,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call call, Response response) {
                 System.out.println(response.code());
                 List users = (List) response.body();
-                tvlocation.append(" " + users.get(0).equals("name"));
+               // tvlocation.append(" " + users.get(0).equals("name"));
                 for (int i=0; i<2; i++)
                 {
                    User u = (User) users.get(i);
-                    tvlocation.append(" " + u.getName());
+                    tvlocation.append(" /t " + u.getName());
                 }
             }
 
@@ -99,8 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void sendPost(String title, String body) {
 
+        Gson gsn = new GsonBuilder().create();
+
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gsn))
                 .build();
 
             SenderService senderService =  retrofit.create(SenderService.class);
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             call.enqueue(new Callback<Data>() {
                 @Override
                 public void onResponse(Call<Data> call, Response<Data> response) {
-                  //  tvlocation.append(response.body().getEmail());
+                    Data data1 = response.body();
+                    String name = data1.getName();
+                    String email = data1.getEmail();
                 }
 
                 @Override
