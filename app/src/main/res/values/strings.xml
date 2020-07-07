@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BarCode</string>
+    <string name="app_name">Cylinder Tracker</string>
 
     <string name="input_error_name">Name is empty.</string>
     <string name="input_error_email">Email is empty.</string>
@@ -11,6 +11,6 @@
     <string name="input_error_address">Address is empty</string>
     <string name="registration_success">Registration is successful!</string>
 
-    <string name="scan">Scan &amp; verify </string>
+    <string name="scan">Scan &amp; Verify </string>
 
 </resources>

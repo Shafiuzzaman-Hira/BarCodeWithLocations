@@ -32,7 +32,7 @@
                     android:id="@+id/linearLayout1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#393e46"
+                    android:background="@color/pp"
                     android:gravity="center"
                     android:orientation="vertical">
 

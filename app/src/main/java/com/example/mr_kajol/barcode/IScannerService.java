@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 public interface IScannerService {
     @POST("/users")
     @FormUrlEncoded
-    Call<Scan> saveScanData(@Field("longitude") String longitude,
+    Call<Scan> sendScannedData(@Field("longitude") String longitude,
                         @Field("latitude") String latitude,
                         @Field("sku") String sku);
 }

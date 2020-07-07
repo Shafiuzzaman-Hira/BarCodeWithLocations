@@ -3,7 +3,6 @@ package com.example.mr_kajol.barcode;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,15 +10,10 @@ import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.zxing.Result;
@@ -63,7 +57,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         longitude = intent.getStringExtra("longitude");
 
        /*  FirebaseDatabase data = FirebaseDatabase.getInstance();
-         DatabaseReference MyRefff = data.getReference("Locations");
+         DatabaseR;;;;;;;;;eference MyRefff = data.getReference("Locations");
 
          MyRefff.push().setValue(str);*/
 
@@ -106,7 +100,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     @Override
     public void handleResult(Result result) {
-        MainActivity.tvShowScanned.setText(result.getText());
+      ScanPage.tvShowScanned.setText(result.getText()+"\n Verified!!");
         if(!TextUtils.isEmpty(result.getText()) && !TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
             sendScannedData(result.getText(), latitude, longitude);
         }
@@ -117,7 +111,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         if(mResponseTv.getVisibility() == View.GONE) {
             mResponseTv.setVisibility(View.VISIBLE);
         }
-        mResponseTv.setText(response);
+        //mResponseTv.setText(response +"\n Verified!!");
     }
 
     @Override

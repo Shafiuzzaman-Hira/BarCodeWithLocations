@@ -5,41 +5,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ScanPage">
+
 
     <LinearLayout
-        android:id="@+id/tvlocation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttoncameraclicked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+        <LinearLayout
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Scan to Verify"
-            android:textSize="25sp" />
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/buttoncameraclicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scan"
+                android:textAlignment="center"
+                android:textSize="25sp"
+
+                />
 
         <TextView
             android:id="@+id/tvScanText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:textAlignment="center"
             android:text=""
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_Location"
+            android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:textSize="14sp"
             android:text="" />
 
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
