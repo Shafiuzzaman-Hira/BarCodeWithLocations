@@ -67,11 +67,11 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
         Gson gson = new GsonBuilder().create();
 
-        TrackerService service = new Retrofit.Builder()
+        ITrackerService service = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
-                .create(TrackerService.class);
+                .create(ITrackerService.class);
 
         Map<String, String> mapdata = new HashMap<>();
         mapdata.put("longitude", longitude);

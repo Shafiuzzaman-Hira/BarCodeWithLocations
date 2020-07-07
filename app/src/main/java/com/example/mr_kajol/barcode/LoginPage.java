@@ -17,11 +17,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginPage extends AppCompatActivity implements View.OnClickListener {
     private Button EnterButton, SignupButton;
     private EditText UserName,UserPassword;
 
     FirebaseAuth mAuth;
+
+   static final String URL = "http://127.0.0.1";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,9 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                     return;
                 }
 
+                    loginUser(username,UserPass);
+
+/*
                 mAuth.signInWithEmailAndPassword(username,UserPass)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -86,7 +96,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                                     Toast.makeText(LoginPage.this, "Email Pass Invalid", Toast.LENGTH_LONG).show();
                                 }
                             }
-                        });
+                        });*/
                 break;
             }
             case R.id.signupbtn:{
@@ -99,4 +109,40 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         }
 
     }
+
+    private void loginUser(String username, String password) {
+
+        //making api call
+        ISenderService api = RetrofitClient.getClient(URL).create(ISenderService.class);
+        Call<Model> login = api.login(username,password);
+
+        login.enqueue(new Callback<Model>() {
+            @Override
+            public void onResponse(Call<Model> call, Response<Model> response) {
+
+                if(response.body().getIsSuccess() == 1){
+                    //get username
+                    String user = response.body().getUsername();
+
+                    //storing the user in shared preferences
+                    SharedPref.getInstance(LoginPage.this).storeUserName(user);
+//                    Toast.makeText(MainActivity.this,response.body().getUsername(),Toast.LENGTH_LONG).show();
+
+                    startActivity(new Intent(LoginPage.this,HomePage.class));
+                }else{
+                    Toast.makeText(LoginPage.this, response.body().getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Model> call, Throwable t) {
+                Toast.makeText(LoginPage.this,t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+
+    }
+
 }

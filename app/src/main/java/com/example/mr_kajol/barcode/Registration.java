@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,12 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Registration extends AppCompatActivity {
 
     private EditText editTextName, editTextEmail, editTextPassword, editText_confirm_Password, editTextPhone, editTextAddress;
     CheckBox checkBox;
 
     private FirebaseAuth mAuth;
+   static final String registerUrl = "http://127.0.0.1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,98 @@ public class Registration extends AppCompatActivity {
     }
 
     private void registerUser() {
+
+
+        final String name = editTextName.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
+        final String ConfirmPassword = editText_confirm_Password.getText().toString().trim();
+        final String phone = editTextPhone.getText().toString().trim();
+        final String address = editTextAddress.getText().toString().trim();
+
+
+        if (name.isEmpty()) {
+            editTextName.setError(getString(R.string.input_error_name));
+            editTextName.requestFocus();
+            return;
+        }
+
+        if (email.isEmpty()) {
+            editTextEmail.setError(getString(R.string.input_error_email));
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError(getString(R.string.input_error_email_invalid));
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            editTextPassword.setError(getString(R.string.input_error_password));
+            editTextPassword.requestFocus();
+            return;
+        }
+        if (ConfirmPassword.isEmpty()) {
+            editText_confirm_Password.setError(getString(R.string.input_error_password));
+            editText_confirm_Password.requestFocus();
+            return;
+        }
+        if (address.isEmpty()) {
+            editTextAddress.setError(getString(R.string.input_error_address));
+            editTextAddress.requestFocus();
+            return;
+        }
+
+        if (password.length() < 6) {
+            editTextPassword.setError(getString(R.string.input_error_password_length));
+            editTextPassword.requestFocus();
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            editTextPhone.setError(getString(R.string.input_error_phone));
+            editTextPhone.requestFocus();
+            return;
+        }
+        if (phone.length() != 11) {
+            editTextPhone.setError(getString(R.string.input_error_phone_invalid));
+            editTextPhone.requestFocus();
+            return;
+        }
+
+
+        //call retrofit
+        //making api call
+        ISenderService api = RetrofitClient.getClient(registerUrl).create(ISenderService.class);
+        Call<Model> login = api.register(name, email, password);
+
+        login.enqueue(new Callback<Model>() {
+            @Override
+            public void onResponse(Call<Model> call, Response<Model> response) {
+                if (response.body().getIsSuccess() == 1) {
+                    //get username
+                    String user = response.body().getUsername();
+
+                    startActivity(new Intent(Registration.this, HomePage.class));
+                } else {
+                    Toast.makeText(Registration.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Model> call, Throwable t) {
+                Toast.makeText(Registration.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+
+/*
+        private void registerUser() {
         final String name = editTextName.getText().toString().trim();
         final String email = editTextEmail.getText().toString().trim();
         final String password = editTextPassword.getText().toString().trim();
@@ -157,5 +255,7 @@ public class Registration extends AppCompatActivity {
                 });
 
     }
+*/
+
 
 }

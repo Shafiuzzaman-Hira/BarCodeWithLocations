@@ -22,7 +22,7 @@ public class ScanPage extends AppCompatActivity  {
     public static Button btnScanCode;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
-    private SenderService mAPIService;
+    private ISenderService mAPIService;
 
 
 

@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
-public interface TrackerService {
+public interface ITrackerService {
     @GET("scan")
     Call<List<User>> getAllUsers(@QueryMap Map<String, String> options);
 
