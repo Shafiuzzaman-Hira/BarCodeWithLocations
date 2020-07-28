@@ -62,7 +62,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         switch (view.getId()){
 
             case R.id.cardview_buy:{
-                Intent i = new Intent(HomePage.this, LoginPage.class);
+                Intent i = new Intent(HomePage.this, Buy_Activity.class);
                 startActivity(i);
                 break;
                }

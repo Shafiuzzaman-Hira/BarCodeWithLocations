@@ -27,7 +27,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
 
     FirebaseAuth mAuth;
 
-   static final String URL = "http://127.0.0.1";
+   static final String URL = "https://cylinder-tracker-web.el.r.appspot.com/";
 
 
     @Override

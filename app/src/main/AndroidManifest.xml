@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Buy_Activity"></activity>
         <activity android:name=".NearestDelar" />
 
         <meta-data

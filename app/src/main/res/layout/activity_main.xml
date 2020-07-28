@@ -27,6 +27,7 @@
             android:layout_height="match_parent">
 
             <Button
+                android:background="@drawable/tabshape"
                 android:id="@+id/buttoncameraclicked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,6 +54,31 @@
             android:ems="10"
             android:textSize="14sp"
             android:text="" />
+
+
+            <Button
+                android:id="@+id/backtohome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/loginbtn"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="91dp"
+                android:layout_marginLeft="91dp"
+                android:layout_marginTop="88dp"
+                android:layout_marginEnd="96dp"
+                android:layout_marginRight="96dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/tabshape"
+                android:fontFamily="sans-serif"
+                android:text="Back to Home? Tap here"
+                android:padding="10dp"
+                android:textAllCaps="false"
+                android:textSize="16sp" />
+
 
         </LinearLayout>
 

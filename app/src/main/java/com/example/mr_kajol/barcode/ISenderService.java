@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ISenderService {
@@ -21,7 +22,7 @@ public interface ISenderService {
             @Field("body") String text
     );
 
-    @POST("/registration")
+    @GET("/registration")
     @FormUrlEncoded
     Call<Model> register(
             @Field("username") String username,
@@ -29,7 +30,7 @@ public interface ISenderService {
             @Field("password") String password
     );
 
-    @POST("/login")
+    @GET("/login")
     @FormUrlEncoded
     Call<Model> login(@Field("username") String username, @Field("password") String password);
 

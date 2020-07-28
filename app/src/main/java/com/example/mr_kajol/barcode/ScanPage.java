@@ -16,10 +16,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class ScanPage extends AppCompatActivity  {
+public class ScanPage extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Error";
-    public static Button btnScanCode;
+    public static Button btnScanCode, backtohome;
     public static TextView tvShowScanned, tvlocation;
     private FusedLocationProviderClient client;
     private ISenderService mAPIService;
@@ -33,9 +33,12 @@ public class ScanPage extends AppCompatActivity  {
         btnScanCode = findViewById(R.id.buttoncameraclicked);
         tvShowScanned = findViewById(R.id.tvScanText);
         tvlocation = findViewById(R.id.tv_Location);
+        backtohome = findViewById(R.id.backtohome);
 
         requestPermission();
         client = LocationServices.getFusedLocationProviderClient(this);
+
+        backtohome.setOnClickListener(this);
 
        btnScanCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,5 +76,16 @@ public class ScanPage extends AppCompatActivity  {
 
     private void requestPermission(){
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION},1);
+    }
+
+    @Override
+    public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.backtohome:
+                {
+                    startActivity(new Intent(ScanPage.this, HomePage.class));
+                    break;
+                }
+            }
     }
 }

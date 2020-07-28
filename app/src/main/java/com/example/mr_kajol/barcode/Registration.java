@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,14 +27,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Registration extends AppCompatActivity {
+public class Registration extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextName, editTextEmail, editTextPassword, editText_confirm_Password, editTextPhone, editTextAddress;
     CheckBox checkBox;
 
-    private FirebaseAuth mAuth;
-   static final String registerUrl = "http://127.0.0.1";
+    Button RegisterButton, BackloginPage;
 
+    private FirebaseAuth mAuth;
+   static final String registerUrl ="https://cylinder-tracker-web.el.r.appspot.com/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +50,37 @@ public class Registration extends AppCompatActivity {
         editTextAddress = findViewById(R.id.edit_text_address);
         editTextPhone = findViewById(R.id.edit_text_phone);
 
+        RegisterButton = findViewById(R.id.button_register);
+        BackloginPage = findViewById(R.id.backtologinR);
+
+
         checkBox = findViewById(R.id.chkBox1);
 
         mAuth = FirebaseAuth.getInstance();
 
-        registerUser();
+        RegisterButton.setOnClickListener(this);
+        BackloginPage.setOnClickListener(this);
+
 
     }
+
+
+    @Override
+    public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.button_register:{
+                    registerUser();
+                    break;
+                }
+
+                case R.id.backtologinR:{
+                    Intent intent = new Intent(Registration.this, LoginPage.class);
+                    startActivity(intent);
+                    break;
+                }
+            }
+    }
+
 
     private void registerUser() {
 
@@ -121,9 +148,9 @@ public class Registration extends AppCompatActivity {
         //call retrofit
         //making api call
         ISenderService api = RetrofitClient.getClient(registerUrl).create(ISenderService.class);
-        Call<Model> login = api.register(name, email, password);
+        Call<Model> register = api.register(name, email, password);
 
-        login.enqueue(new Callback<Model>() {
+        register.enqueue(new Callback<Model>() {
             @Override
             public void onResponse(Call<Model> call, Response<Model> response) {
                 if (response.body().getIsSuccess() == 1) {
