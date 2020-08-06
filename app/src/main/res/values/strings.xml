@@ -15,25 +15,24 @@
 
     <string name="size">Select Size : </string>
     <string name="qty">Select Qty : </string>
-    <string name="delevery">Delivery Date: </string>
+    <string name="delevery">Delivery Date : </string>
+    <string name="Submit">Submit Order</string>
 
 
     <array name="sizeunit">
-        <item> 12 KG </item>
-        <item> 30 KG </item>
-        <item> 45 KG </item>
+        <item>12 KG</item>
+        <item>30 KG</item>
+        <item>45 KG</item>
     </array>
 
     <array name="qtyunit">
-        <item> 1</item>
-        <item> 2</item>
-        <item> 3</item>
-        <item> 4</item>
-        <item> 5</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
 
     </array>
-
-
 
 
 </resources>

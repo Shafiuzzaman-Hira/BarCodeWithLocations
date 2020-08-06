@@ -151,7 +151,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="Enter"
                     android:textColor="@color/white" />
-                -3
+
 
                 <Button
                     android:id="@+id/signupbtn"

@@ -5,6 +5,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,14 +20,22 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 
-public class Buy_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, DatePickerDialog.OnDateSetListener  {
+public class Buy_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     String[] SizeUnits = { "12 KG", "30 KG", "45 KG"};
     String[] QtyUnits = { "1", "2", "3","4","5"};
 
 
+    Calendar calendar = Calendar.getInstance();
+    final  int year =  calendar.get(Calendar.YEAR);
+    final  int month =  calendar.get(Calendar.MONTH);
+    final  int day =  calendar.get(Calendar.DAY_OF_MONTH);
+
+    DatePickerDialog.OnDateSetListener setListner;
+
+
     private CardView CVDateView;
-    private TextView TvDateshow;
+    private TextView TvDateshow, tvdateclick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +46,14 @@ public class Buy_Activity extends AppCompatActivity implements AdapterView.OnIte
         Spinner QtySpin = (Spinner) findViewById(R.id.qtySpinner);
 
         CVDateView = findViewById(R.id.card_Date);
-        TvDateshow = findViewById(R.id.datetv);
+        tvdateclick = findViewById(R.id.tvDateclick);
+        TvDateshow = findViewById(R.id.tvdateView);
 
-        CVDateView.setOnClickListener(this);
+      //  CVDateView.setOnClickListener(this);
+        //tvdateclick.setOnClickListener(this);
+        TvDateshow.setText(" "+day+"/"+month+"/"+year);
+        TvDateshow.setOnClickListener(this);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, SizeUnits);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -50,6 +65,17 @@ public class Buy_Activity extends AppCompatActivity implements AdapterView.OnIte
         qtyadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         QtySpin.setAdapter(qtyadapter);
         QtySpin.setOnItemSelectedListener(this);
+
+
+
+        setListner = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month+1;
+                String date = " "+day+"/"+month+"/"+year;
+                TvDateshow.setText(date);
+            }
+        };
     }
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
@@ -59,28 +85,38 @@ public class Buy_Activity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO - Custom Code
+        // TODO - Cu
+        //  2stom Code
     }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.card_Date:{
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "date picker");
+            case R.id.tvDateclick:{
+                /// this is just for testing
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        Buy_Activity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        setListner, year, month, day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+                break;
+            }
+            case R.id.tvdateView: {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        Buy_Activity.this, new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        month = month+1;
+                        String date = " "+day+"/"+month+"/"+year;
+                        TvDateshow.setText(date);
+                    }
+                },year,month,day
+                );
+
+                datePickerDialog.show();
                 break;
             }
         }
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        //TextView textView = (TextView) findViewById(R.id.datetv);
-        //textView.setText(currentDateString);
     }
 }
