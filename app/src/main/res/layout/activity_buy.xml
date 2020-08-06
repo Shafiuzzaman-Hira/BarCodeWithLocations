@@ -187,12 +187,51 @@
         android:id="@+id/SubmitLayout"
         android:layout_below="@id/Deleverylayout"
         android:gravity="center"
-        android:padding="50dp"
+        android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:clickable="true"
+            android:id="@+id/SubmitButton"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Submit"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:background="@drawable/btnsubmitorder"
+                    android:fontFamily="sans-serif"
+                    >
+                </TextView>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/detailsLayout"
+        android:layout_below="@id/SubmitLayout"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:clickable="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
@@ -201,22 +240,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
+                <TextView
+                    android:id="@+id/resultset"
                     android:padding="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/Submit"
-                    android:background="@drawable/btnsubmitorder"
                     android:fontFamily="sans-serif"
+                    android:textAlignment="center"
+                    android:textSize="14dp"
                     >
-                </Button>
+
+                </TextView>
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_below="@id/detailsLayout"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <androidx.cardview.widget.CardView
+            android:clickable="true"
+            android:id="@+id/BackCDHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:background="@drawable/tabshape"
+                    android:fontFamily="sans-serif"
+                    android:text="Back to Home? Tap here"
+                    android:textSize="14dp"
+                    >
+
+                </TextView>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
 
 
